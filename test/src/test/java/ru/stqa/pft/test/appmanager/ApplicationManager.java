@@ -1,38 +1,34 @@
-package ru.stqa.pft.test;
+package ru.stqa.pft.test.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 
 import java.util.concurrent.TimeUnit;
 
-public class TestBase {
+public class ApplicationManager {
 
     public WebDriver driver;
     public WebDriverWait wait;
 
-    @BeforeTest
-    public void setUp(){
+    public void init() {
         ChromeOptions opt = new ChromeOptions();
         opt.addArguments("start-maximized");
         driver = new ChromeDriver(opt);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        logInStore();
+        logInStore("test12@test.com", "1234567890");
     }
 
-    @AfterTest
-    public void close(){
+    public void stop() {
         driver.quit();
     }
 
-    private void logInStore() {
+    public void logInStore(String email, String password) {
         driver.get("http://localhost/litecart/en/");
-        driver.findElement(By.cssSelector("input[name=email]")).sendKeys("test12@test.com");
-        driver.findElement(By.cssSelector("input[name=password]")).sendKeys("1234567890");
+        driver.findElement(By.cssSelector("input[name=email]")).sendKeys(email);
+        driver.findElement(By.cssSelector("input[name=password]")).sendKeys(password);
         driver.findElement(By.cssSelector("button[name=login]")).click();
     }
 
