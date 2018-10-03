@@ -11,28 +11,27 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationManager {
 
     public WebDriver driver;
+    private SessionHelper sessionHelper;
     public WebDriverWait wait;
 
     public void init() {
         ChromeOptions opt = new ChromeOptions();
         opt.addArguments("start-maximized");
         driver = new ChromeDriver(opt);
+        sessionHelper = new SessionHelper(driver);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        logInStore("test12@test.com", "1234567890");
+        sessionHelper.logInStore("test12@test.com", "1234567890");
     }
 
     public void stop() {
         driver.quit();
     }
 
-    public void logInStore(String email, String password) {
-        driver.get("http://localhost/litecart/en/");
-        driver.findElement(By.cssSelector("input[name=email]")).sendKeys(email);
-        driver.findElement(By.cssSelector("input[name=password]")).sendKeys(password);
-        driver.findElement(By.cssSelector("button[name=login]")).click();
-    }
-
     public void clickEditAccount(){
         driver.findElement(By.cssSelector("div#box-account ul li:nth-child(3) a[href='http://localhost/litecart/en/edit_account']")).click();
+    }
+
+    public SessionHelper getSessionHelper() {
+        return sessionHelper;
     }
 }

@@ -8,7 +8,7 @@ public class Test1 extends TestBase {
 
     @Test
     public void test1() throws InterruptedException {
-        Assert.assertTrue(app.driver.findElement(By.cssSelector("div#notices")).getText().contains("You are now logged in as test test."));
+        Assert.assertTrue(app.getSessionHelper().driver.findElement(By.cssSelector("div#notices")).getText().contains("You are now logged in as test test."));
         app.clickEditAccount();
     }
 }
